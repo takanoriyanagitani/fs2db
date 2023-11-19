@@ -1,0 +1,22 @@
+[package]
+name = "wix"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies.fs2db]
+path = "../../../.."
+
+[dependencies.tokio]
+version = "1.34.0"
+default-features = false
+features = [
+	"macros",
+	"rt-multi-thread",
+]
+
+[dependencies.deadpool-postgres]
+version = "0.11.0"
+default-features = false
+features = [
+	"rt_tokio_1",
+]
