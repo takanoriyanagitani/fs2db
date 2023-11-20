@@ -12,3 +12,7 @@ Cargo.lock
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+*.swp
+examples/fs2pg/lines2pg/wix/enwiki-20231101-pages-articles-multistream-index.txt.bz2
+examples/fs2pg/lines2pg/wix/enwiki-20231101-pages-articles-multistream.xml.bz2
