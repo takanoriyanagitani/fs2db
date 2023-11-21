@@ -16,3 +16,9 @@ Cargo.lock
 *.swp
 examples/fs2pg/lines2pg/wix/enwiki-20231101-pages-articles-multistream-index.txt.bz2
 examples/fs2pg/lines2pg/wix/enwiki-20231101-pages-articles-multistream.xml.bz2
+examples/fs2pg/lines2pg/wix/enwiki-20231101-pages-articles-multistream-index.txt
+examples/fs2pg/lines2pg/wix/index-1024.txt
+examples/fs2pg/lines2pg/wix/index-1048576.txt
+examples/fs2pg/lines2pg/wix/index-131072.txt
+examples/fs2pg/lines2pg/wix/index-16384.txt
+examples/fs2pg/lines2pg/wix/index-16777216.txt
