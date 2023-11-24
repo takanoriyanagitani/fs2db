@@ -13,6 +13,16 @@ features = [
 	"executor",
 ]
 
+[dependencies.tonic]
+version = "0.10"
+optional = true
+default-features = false
+features = [
+	"transport",
+	"codegen",
+	"prost",
+]
+
 [dependencies.serde]
 version = "1.0"
 default-features = false
@@ -55,6 +65,7 @@ default = [
 
 async = [
 	"futures",
+	"tonic",
 ]
 
 async_tokio = [

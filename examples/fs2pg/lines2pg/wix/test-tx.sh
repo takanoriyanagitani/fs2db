@@ -33,7 +33,7 @@ droptab(){
 
 createtab(){
 	echo "
-		CREATE UNLOGGED TABLE IF NOT EXISTS wix (
+		CREATE TABLE IF NOT EXISTS wix (
 			ofst BIGINT NOT NULL,
 			id BIGINT NOT NULL,
 			title TEXT NOT NULL,
@@ -58,13 +58,30 @@ run(){
 			-e 'Elapsed'
 }
 
+stat(){
+	echo "
+		SELECT wal_sync
+		FROM pg_stat_wal AS r
+	" | psql \
+		--variable=dbname="${dbname}" \
+		--no-align \
+		--tuples-only
+}
+
 listdb || createdb
 
 export PGDATABASE="${dbname}"
+export ENV_USE_TX=true
 
 droptab
 createtab
 
+wal_sync_before=$( stat )
+
 #run index-1024.txt
-run index-16384.txt
-#run index-131072.txt
+#run index-16384.txt
+run index-131072.txt
+
+wal_sync_after=$( stat )
+
+echo wal_sync_diff: $(( $wal_sync_after - $wal_sync_before ))
