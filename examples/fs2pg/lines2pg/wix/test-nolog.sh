@@ -53,6 +53,7 @@ run(){
 	time --verbose ./wix \
 		2>&1 \
 		| grep \
+			-e 'Percent of CPU' \
 			-e 'User time' \
 			-e 'System time' \
 			-e 'Elapsed'
