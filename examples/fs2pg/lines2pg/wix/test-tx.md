@@ -1,4 +1,4 @@
-| size | CPU      | user ms | sys ms | elapsed ms | tps | SSD          |
+| size | CPU      | user ms | sys ms | elapsed ms | ops | SSD          |
 |:----:|:--------:| -------:|:------:|:----------:|:---:|:------------:|
 | 1k   |          | 20      | 10     | 70         | 15K | FireCuda 530 |
 | 1k   |          | 30      | 30     | 110        |  9K | FireCuda 530 |
