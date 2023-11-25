@@ -22,3 +22,4 @@ examples/fs2pg/lines2pg/wix/index-1048576.txt
 examples/fs2pg/lines2pg/wix/index-131072.txt
 examples/fs2pg/lines2pg/wix/index-16384.txt
 examples/fs2pg/lines2pg/wix/index-16777216.txt
+examples/fs2pg/lines2pg/wix/part-*.txt
