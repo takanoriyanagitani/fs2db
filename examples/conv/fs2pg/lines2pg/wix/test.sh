@@ -2,13 +2,16 @@
 
 listen_addr=127.0.0.1:11301
 protodir="fs2db-proto"
+bname="${ENV_BNAME:-index-1024.txt}"
+bucket=$( echo -n "${bname}" | base64 )
 
 sel() {
 	jq \
 		-n \
+		--arg bkt "${bucket}" \
 		-c '{
 			bkt: {
-				bucket: "aW5kZXgtMTAyNC50eHQ="
+				bucket: $bkt
 			}
 	}' |
 		grpcurl \
