@@ -1,0 +1,45 @@
+[package]
+name = "wix"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies.fs2db]
+path = "../../../../../"
+
+[dependencies.log]
+version = "0.4.20"
+default-features = false
+features = [
+]
+
+[dependencies.env_logger]
+version = "0.10.1"
+default-features = false
+features = [
+	"auto-color",
+	"humantime",
+	"regex",
+]
+
+[dependencies.futures-core]
+version = "0.3.29"
+default-features = false
+features = [
+	"std",
+]
+
+[dependencies.tokio]
+version = "1.34.0"
+default-features = false
+features = [
+	"macros",
+	"rt-multi-thread",
+	"io-util",
+]
+
+[dependencies.deadpool-postgres]
+version = "0.11.0"
+default-features = false
+features = [
+	"rt_tokio_1",
+]

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package fs2db.proto.source.v1;
+
+message InputBucket {
+  bytes bucket = 1; // bucket info
+}
+
+message AllRequest {
+  InputBucket bkt = 1;
+}
+message AllResponse {
+  bytes key = 1;
+  bytes val = 2;
+}
+
+service SelectService {
+  // Gets all key/val pairs from a bucket
+  rpc All(AllRequest) returns (stream AllResponse);
+}
+
+message DropSvc {
+  message CheckedRequest {
+    // The bucket to be dropped
+    InputBucket bkt = 1;
+
+    // The key to be checked
+    bytes key = 2;
+
+    // Optional info which can be used to verify this drop request
+    bytes check = 3;
+  }
+
+  message CheckedResponse {
+    // Number of keys which was stored in a dropped bucket
+    fixed64 keys_count = 1;
+  }
+}
+
+service DropService {
+  // Drops a bucket if all keys validated(e.g, checksum match)
+  rpc Checked(stream DropSvc.CheckedRequest) returns (DropSvc.CheckedResponse);
+}
