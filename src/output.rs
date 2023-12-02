@@ -1,3 +1,5 @@
+pub mod upsert;
+
 pub mod sync;
 
 #[cfg(feature = "async_tokio")]
