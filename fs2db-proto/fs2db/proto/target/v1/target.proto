@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package fs2db.proto.target.v1;
+
+message OutputBucket {
+  bytes bucket = 1; // bucket info
+}
+
+message UpstSvc {
+  message ManyRequest {
+    OutputBucket bkt = 1;
+    bytes key = 2;
+    bytes val = 3;
+  }
+  message ManyResponse {
+    // number of rows inserted or updated
+    fixed64 upserted = 1;
+  }
+}
+
+service UpsertService {
+  rpc Many(stream UpstSvc.ManyRequest) returns (UpstSvc.ManyResponse);
+}
+
+message SelSvc {
+  message AllRequest {
+    // A bucket info; e.g, a table, a subset of a table
+    OutputBucket bkt = 1;
+  }
+  message AllResponse {
+    // The key found in a "bucket".
+    bytes key = 1;
+
+    // Optional info which can be used for verification(e.g, checksum)
+    bytes check = 2;
+  }
+}
+
+// Gets bucket/key/optional info which can be used for verification
+service SelectService {
+  // Gets "all" key/optional info pairs from a "bucket".
+  rpc All(SelSvc.AllRequest) returns (stream SelSvc.AllResponse);
+}
