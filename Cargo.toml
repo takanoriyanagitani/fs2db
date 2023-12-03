@@ -81,6 +81,7 @@ default = [
 	"async",
 	"grpc_tonic",
 	"source",
+	"target",
 ]
 
 source = []

@@ -15,7 +15,7 @@ fn main() -> Result<(), io::Error> {
     Ok(())
 }
 
-#[cfg(feature = "source")]
+#[cfg(all(feature = "source", not(feature = "target")))]
 fn main() -> Result<(), io::Error> {
     tonic_build::configure()
         .build_server(true)
