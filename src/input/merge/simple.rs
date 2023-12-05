@@ -87,6 +87,12 @@ where
     }
 }
 
+/// Creates a Source using two sources.
+///
+/// ## Arguments
+/// - sa: A source with fewer elements(its contents will be stored in a BTreeMap)
+/// - sb: A source which may contain many elements
+/// - merger: A merger which merges a value of sa and a value of sb
 pub fn source_new_merged<A, B, M>(sa: A, sb: B, merger: M) -> impl Source
 where
     A: Clone + MergeSource,
