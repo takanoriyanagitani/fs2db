@@ -43,6 +43,7 @@ where
     B: Clone + MergeSource<K = <A as MergeSource>::K>,
     M: Clone + Merge<A = <A as MergeSource>::V, B = <B as MergeSource>::V>,
     A::K: Ord + Debug,
+    A::V: Clone,
     Self: Clone,
 {
     type Item = M::T;
@@ -50,7 +51,7 @@ where
 
     async fn all(&self) -> Result<Self::All, Status> {
         let a: A::All = self.sa.all().await?;
-        let mut amap: BTreeMap<A::K, A::V> = a
+        let amap: BTreeMap<A::K, A::V> = a
             .try_fold(BTreeMap::new(), |mut m, pair| async move {
                 let (ak, av) = pair;
                 m.insert(ak, av);
@@ -66,7 +67,7 @@ where
             let mapd = b.map(|r| {
                 r.and_then(|pair| {
                     let (bk, bv) = pair;
-                    let av: A::V = amap.remove(&bk).ok_or_else(|| {
+                    let av: A::V = amap.get(&bk).cloned().ok_or_else(|| {
                         Status::invalid_argument(format!("no value found for key {bk:#?}"))
                     })?;
                     let merged = rs.merge(av, bv)?;
@@ -93,12 +94,13 @@ where
 /// - sa: A source with fewer elements(its contents will be stored in a BTreeMap)
 /// - sb: A source which may contain many elements
 /// - merger: A merger which merges a value of sa and a value of sb
-pub fn source_new_merged<A, B, M>(sa: A, sb: B, merger: M) -> impl Source
+pub fn source_new_merged<A, B, M>(sa: A, sb: B, merger: M) -> impl Source<Item = M::T>
 where
     A: Clone + MergeSource,
     B: Clone + MergeSource<K = <A as MergeSource>::K>,
     M: Clone + Merge<A = <A as MergeSource>::V, B = <B as MergeSource>::V>,
     A::K: Ord + Debug,
+    A::V: Clone,
 {
     MergedSvc {
         sa,

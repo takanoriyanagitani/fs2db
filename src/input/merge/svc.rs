@@ -12,8 +12,8 @@ pub trait Merge: Send + Sync + 'static {
 
 #[tonic::async_trait]
 pub trait MergeSource: Send + Sync + 'static {
-    type K: Send;
-    type V: Send;
+    type K: Send + Sync;
+    type V: Send + Sync;
 
     type All: Stream<Item = Result<(Self::K, Self::V), Status>> + Send + 'static;
 

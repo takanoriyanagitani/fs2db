@@ -30,4 +30,5 @@ pub use futures::TryStreamExt;
 pub use tokio_stream;
 pub use tokio_stream::Stream;
 
+pub use tokio;
 pub use tonic;
