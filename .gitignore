@@ -22,10 +22,11 @@ examples/fs2pg/lines2pg/wix/index-131072.txt
 examples/fs2pg/lines2pg/wix/index-16384.txt
 examples/fs2pg/lines2pg/wix/index-16777216.txt
 examples/fs2pg/lines2pg/wix/part-*.txt
-examples/conv
-examples
 target/.rustc_info.json
 target/.rustdoc_fingerprint.json
 target/CACHEDIR.TAG
 target/doc
 target/release
+examples/merge/source/simple/log/rs-merge-sample-log/target
+examples/fs2pg/lines2pg/wix/target/
+examples/conv/fs2pg/lines2pg/wix/target/
