@@ -12,10 +12,13 @@ env:
 jobs:
   build:
 
-    runs-on:
-    - ubuntu-22.04
-    - macos-12
-    - macos-13
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+        - ubuntu-22.04
+        - macos-12
+        - macos-13
 
     steps:
     - uses: actions/checkout@v3
