@@ -30,3 +30,4 @@ target/release
 examples/merge/source/simple/log/rs-merge-sample-log/target
 examples/fs2pg/lines2pg/wix/target/
 examples/conv/fs2pg/lines2pg/wix/target/
+target/package
