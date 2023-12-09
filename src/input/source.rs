@@ -103,6 +103,12 @@ where
     }
 }
 
+/// Creates a merged [`BucketSource`] by merging sa, sb.
+///
+/// ## Arguments
+/// - sa: A [`BucketSource`] which has few key/val pairs
+/// - sb: A [`BucketSource`] which may have many key/val pairs
+/// - merger: A [`Merge`] which creates merged value from sa/sb using BTreeMap
 pub fn bkt_src_merged_new<A, B, M>(
     sa: A,
     sb: B,
