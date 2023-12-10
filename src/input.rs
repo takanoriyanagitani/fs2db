@@ -1,4 +1,8 @@
+//! Input modules
+
 pub mod source;
+
+pub mod group;
 
 pub mod select;
 
