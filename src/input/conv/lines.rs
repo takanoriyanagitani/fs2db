@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use futures::StreamExt;
 
 use tokio::io::{AsyncBufReadExt, BufReader};
@@ -64,4 +66,31 @@ where
     <R as ReadSource>::R: Unpin,
 {
     ReadSrc { rsrc }
+}
+
+#[tonic::async_trait]
+pub trait FsSource: Send + Sync + 'static {
+    type Bucket: Send + Sync;
+
+    fn bucket2path(&self, b: Self::Bucket) -> Result<&Path, Status>;
+
+    async fn get_file_by_bucket(&self, b: Self::Bucket) -> Result<tokio::fs::File, Status> {
+        let p: &Path = self.bucket2path(b)?;
+        tokio::fs::File::open(p)
+            .await
+            .map_err(|e| Status::internal(format!("unable to open a file: {e}")))
+    }
+}
+
+#[tonic::async_trait]
+impl<F> ReadSource for F
+where
+    F: FsSource,
+{
+    type Bucket = F::Bucket;
+    type R = tokio::fs::File;
+
+    async fn get_src_read_by_bucket(&self, b: Self::Bucket) -> Result<Self::R, Status> {
+        self.get_file_by_bucket(b).await
+    }
 }
