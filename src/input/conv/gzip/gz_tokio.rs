@@ -25,3 +25,10 @@ where
         Ok(gr)
     }
 }
+
+pub fn read_src_gzip_decoded_new<R>(encoded: R) -> impl ReadSource<Bucket = R::Bucket>
+where
+    R: ReadSource,
+{
+    GzipDecodedSrc { encoded }
+}
