@@ -39,6 +39,7 @@ default-features = false
 features = [
   "fs",
   "io-util",
+  "macros",
 ]
 
 [dependencies.tokio-stream]
