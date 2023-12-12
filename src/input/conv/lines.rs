@@ -13,7 +13,7 @@ use crate::input::source::BucketSource;
 #[tonic::async_trait]
 pub trait ReadSource: Send + Sync + 'static {
     type Bucket: Send + Sync;
-    type R: Send + Sync + tokio::io::AsyncRead;
+    type R: Send + Sync + tokio::io::AsyncRead + Unpin;
 
     async fn get_src_read_by_bucket(&self, b: Self::Bucket) -> Result<Self::R, Status>;
 }
@@ -26,7 +26,6 @@ pub struct ReadSrc<R> {
 impl<R> BucketSource for ReadSrc<R>
 where
     R: ReadSource,
-    <R as ReadSource>::R: Unpin,
 {
     type Bucket = R::Bucket;
     type K = usize;
@@ -63,7 +62,6 @@ where
 pub fn bytes_src_new<R>(rsrc: R) -> impl BucketSource<Bucket = R::Bucket, K = usize, V = Vec<u8>>
 where
     R: ReadSource,
-    <R as ReadSource>::R: Unpin,
 {
     ReadSrc { rsrc }
 }
