@@ -24,7 +24,7 @@ pub trait BucketSource: Send + Sync + 'static {
     type K: Send + Sync;
     type V: Send + Sync;
 
-    type All: Stream<Item = Result<(Self::K, Self::V), Status>> + Send + 'static;
+    type All: Stream<Item = Result<(Self::K, Self::V), Status>> + Send + Unpin + 'static;
 
     async fn get_all_by_bucket(&self, b: Self::Bucket) -> Result<Self::All, Status>;
 }
