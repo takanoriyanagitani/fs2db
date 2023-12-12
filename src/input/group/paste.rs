@@ -90,7 +90,6 @@ pub async fn buckets2stream<B, M, T>(
 ) -> impl Stream<Item = T>
 where
     B: BucketSource,
-    B::All: Unpin,
     T: Send + 'static,
     M: Send + 'static + Fn(&[Result<(B::K, B::V), Status>]) -> T,
 {
