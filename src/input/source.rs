@@ -1,4 +1,5 @@
 use std::collections::BTreeMap;
+use std::sync::Arc;
 
 use futures::Stream;
 use futures::StreamExt;
@@ -26,6 +27,23 @@ pub trait BucketSource: Send + Sync + 'static {
     type All: Stream<Item = Result<(Self::K, Self::V), Status>> + Send + 'static;
 
     async fn get_all_by_bucket(&self, b: Self::Bucket) -> Result<Self::All, Status>;
+}
+
+#[tonic::async_trait]
+impl<A> BucketSource for Arc<A>
+where
+    A: BucketSource,
+{
+    type Bucket = A::Bucket;
+    type K = A::K;
+    type V = A::V;
+
+    type All = A::All;
+
+    async fn get_all_by_bucket(&self, b: Self::Bucket) -> Result<Self::All, Status> {
+        let a: &A = self;
+        a.get_all_by_bucket(b).await
+    }
 }
 
 pub trait Merge: Send + Sync + 'static {
