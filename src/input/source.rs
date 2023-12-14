@@ -18,6 +18,7 @@ pub trait Source: Send + Sync + 'static {
     async fn all(&self) -> Result<Self::All, Status>;
 }
 
+/// Source of buckets(a bucket has key/val pairs)
 #[tonic::async_trait]
 pub trait BucketSource: Send + Sync + 'static {
     type Bucket: Send + Sync;
