@@ -68,6 +68,7 @@ where
     A::K: Ord,
     A::V: Clone,
 {
+    /// Creates [`BTreeMap`] from all key/val pairs in a bucket [`BucketSource::Bucket`]
     pub async fn to_map(&self, b: A::Bucket) -> Result<BTreeMap<A::K, A::V>, Status> {
         let all = self.sa.get_all_by_bucket(b).await?;
         all.try_fold(BTreeMap::new(), |mut m, pair| async move {
