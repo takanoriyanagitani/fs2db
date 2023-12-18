@@ -10,6 +10,7 @@ use tonic::Status;
 
 use crate::input::source::BucketSource;
 
+/// A trait which gets a readable object by bucket
 #[tonic::async_trait]
 pub trait ReadSource: Send + Sync + 'static {
     type Bucket: Send + Sync;
