@@ -48,6 +48,7 @@ where
     }
 }
 
+/// Merger which tries to create a merged(T) from inputs(A,B)
 pub trait Merge: Send + Sync + 'static {
     type A: Send + Sync;
     type B: Send + Sync;
