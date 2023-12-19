@@ -2,6 +2,8 @@
 
 pub mod source;
 
+pub mod join;
+
 pub mod conv;
 
 pub mod group;
