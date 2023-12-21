@@ -257,7 +257,7 @@ mod test_btree {
                 let bs = crate::input::join::mem::btree::merged_src_new(mgr, src);
 
                 let bkt = (vec![], vec![]);
-                let got = bs.get_all_by_bucket(bkt).await.unwrap();
+                let got = BucketSource::get_all_by_bucket(&bs, bkt).await.unwrap();
                 let cnt: usize = got.count().await;
                 assert_eq!(0, cnt);
             }
@@ -443,7 +443,7 @@ mod test_btree {
                         ("tue", "2023/12/19".into()),
                     ],
                 );
-                let got = bs.get_all_by_bucket(bkt).await.unwrap();
+                let got = BucketSource::get_all_by_bucket(&bs, bkt).await.unwrap();
                 let folded: Vec<_> = got
                     .fold(vec![], |mut v, rslt| async move {
                         v.push(rslt.unwrap());
@@ -528,7 +528,7 @@ mod test_btree {
                 let s: S = S {};
                 let bs = crate::input::join::mem::btree::grouped_src_new(g, s);
                 let bkt = (vec![], vec![]);
-                let rslt = bs.get_all_by_bucket(bkt).await.unwrap();
+                let rslt = BucketSource::get_all_by_bucket(&bs, bkt).await.unwrap();
                 let cnt: usize = rslt.count().await;
                 assert_eq!(0, cnt);
             }
@@ -703,7 +703,7 @@ mod test_btree {
                         ("tue", "2023/12/19".into()),
                     ],
                 );
-                let got = bs.get_all_by_bucket(bkt).await.unwrap();
+                let got = BucketSource::get_all_by_bucket(&bs, bkt).await.unwrap();
                 let folded: Vec<_> = got
                     .fold(vec![], |mut v, rslt| async move {
                         v.push(rslt.unwrap());
