@@ -22,6 +22,41 @@ pub trait MemSource: Sync + Send + 'static {
     ) -> Result<BTreeMap<Self::K, Self::V>, Status>;
 }
 
+#[tonic::async_trait]
+impl<B> MemSource for B
+where
+    B: BucketSource,
+    B::Bucket: Clone + Ord,
+    B::K: Ord,
+{
+    type Bucket = B::Bucket;
+
+    type K = B::K;
+    type V = B::V;
+
+    async fn get_all_by_bucket(
+        &self,
+        b: Self::Bucket,
+    ) -> Result<BTreeMap<Self::K, Self::V>, Status> {
+        let rows: B::All = BucketSource::get_all_by_bucket(self, b).await?;
+        rows.try_fold(BTreeMap::new(), |mut m, pair| async move {
+            let (key, val) = pair;
+            m.insert(key, val);
+            Ok(m)
+        })
+        .await
+    }
+}
+
+pub fn mem_src_new<B>(bsrc: B) -> impl MemSource<Bucket = B::Bucket, K = B::K, V = B::V>
+where
+    B: BucketSource,
+    B::Bucket: Clone + Ord,
+    B::K: Ord,
+{
+    bsrc
+}
+
 pub trait Merger: Sync + Send + 'static {
     type Bucket: Send + Sync + Ord + Clone;
 
