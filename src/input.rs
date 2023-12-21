@@ -2,6 +2,7 @@
 
 pub mod source;
 
+pub mod bin;
 pub mod join;
 
 pub mod conv;
