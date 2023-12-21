@@ -31,6 +31,67 @@ pub trait BucketSource: Send + Sync + 'static {
     async fn get_all_by_bucket(&self, b: Self::Bucket) -> Result<Self::All, Status>;
 }
 
+pub trait Mapper: Sync + Send + 'static {
+    type IK: Send + Sync;
+    type IV: Send + Sync;
+
+    type OK: Send + Sync;
+    type OV: Send + Sync;
+
+    fn convert(&self, key: Self::IK, val: Self::IV) -> Result<(Self::OK, Self::OV), Status>;
+}
+
+pub struct BucketSrcMapd<M, B> {
+    original: B,
+    mapper: M,
+}
+
+#[tonic::async_trait]
+impl<M, B> BucketSource for BucketSrcMapd<M, B>
+where
+    M: Clone + Mapper,
+    B: BucketSource<K = M::IK, V = M::IV>,
+{
+    type Bucket = B::Bucket;
+    type K = M::OK;
+    type V = M::OV;
+
+    type All = ReceiverStream<Result<(Self::K, Self::V), Status>>;
+
+    /// Gets all key/val pairs from a bucket [`Self::Bucket`]
+    async fn get_all_by_bucket(&self, b: Self::Bucket) -> Result<Self::All, Status> {
+        let old: B::All = self.original.get_all_by_bucket(b).await?;
+        let (tx, rx) = tokio::sync::mpsc::channel(1);
+        let mapper: M = self.mapper.clone();
+        tokio::spawn(async move {
+            let rt = &tx;
+            let mapd = old.map(|rslt| {
+                rslt.and_then(|pair| {
+                    let (ik, iv) = pair;
+                    mapper.convert(ik, iv)
+                })
+            });
+            let _cnt: u64 = mapd
+                .fold(0, |tot, rslt| async move {
+                    rt.send(rslt).await.map(|_| 1 + tot).unwrap_or(tot)
+                })
+                .await;
+        });
+        Ok(ReceiverStream::new(rx))
+    }
+}
+
+pub fn mapd_bkt_src_new<M, B>(
+    mapper: M,
+    original: B,
+) -> impl BucketSource<Bucket = B::Bucket, K = M::OK, V = M::OV>
+where
+    M: Clone + Mapper,
+    B: BucketSource<K = M::IK, V = M::IV>,
+{
+    BucketSrcMapd { original, mapper }
+}
+
 #[tonic::async_trait]
 impl<A> BucketSource for Arc<A>
 where
