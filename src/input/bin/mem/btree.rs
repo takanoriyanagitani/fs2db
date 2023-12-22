@@ -58,6 +58,18 @@ pub struct RangeII<K> {
     pub ubi_offset: K,
 }
 
+impl<K> Clone for RangeII<K>
+where
+    K: Clone,
+{
+    fn clone(&self) -> Self {
+        Self {
+            lbi_offset: self.lbi_offset.clone(),
+            ubi_offset: self.ubi_offset.clone(),
+        }
+    }
+}
+
 macro_rules! range_impl {
     ($key: ty) => {
         impl Range for RangeII<$key> {
