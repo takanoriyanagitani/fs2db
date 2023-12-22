@@ -53,6 +53,7 @@ where
     }
 }
 
+/// Implements [`ComputeDiff`], [`ComputeNearest`], [`Range`]
 pub struct RangeII<K> {
     pub lbi_offset: K,
     pub ubi_offset: K,
