@@ -7,9 +7,14 @@ use tonic::Status;
 
 use crate::input::join::mem::btree::MemSource;
 
+/// Key Replacer
 pub trait Nearest: Sync + Send + 'static {
     type K: Sync + Send + Ord;
 
+    /// Finds a key which has minimum difference
+    /// ## Arguments
+    /// - k: The original key
+    /// - m: Keys which might have a key that has minimum difference
     fn get_nearest(&self, k: &Self::K, m: &BTreeSet<Self::K>) -> Result<Self::K, Status>;
 }
 
