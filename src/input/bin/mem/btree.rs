@@ -18,10 +18,12 @@ pub trait Nearest: Sync + Send + 'static {
     fn get_nearest(&self, k: &Self::K, m: &BTreeSet<Self::K>) -> Result<Self::K, Status>;
 }
 
+/// Range Container
 pub trait Range: Sync + Send + 'static {
     type K: Sync + Send + Ord;
     type R: RangeBounds<Self::K>;
 
+    /// Gets RangeBounds around a key(e.g, k-100..=k+100)
     fn range(&self, key: &Self::K) -> Self::R;
 }
 
