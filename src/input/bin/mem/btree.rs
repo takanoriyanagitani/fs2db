@@ -27,6 +27,7 @@ pub trait Range: Sync + Send + 'static {
     fn range(&self, key: &Self::K) -> Self::R;
 }
 
+/// Gets a key with nearest "Score"(e.g, gets a key with minimum score)
 pub trait ComputeNearest: Sync + Send + 'static {
     type K: Sync + Send + Ord;
     type Score: Sync + Send + Ord;
