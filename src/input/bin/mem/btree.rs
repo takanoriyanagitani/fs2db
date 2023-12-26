@@ -32,6 +32,7 @@ pub trait ComputeNearest: Sync + Send + 'static {
     type K: Sync + Send + Ord;
     type Score: Sync + Send + Ord;
 
+    /// Gets a "nearest" key from (score, key) pairs.
     fn nearest<I>(&self, pairs: I) -> Result<Self::K, Status>
     where
         I: Iterator<Item = (Self::Score, Self::K)>;
