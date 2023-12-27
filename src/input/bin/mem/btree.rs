@@ -38,6 +38,7 @@ pub trait ComputeNearest: Sync + Send + 'static {
         I: Iterator<Item = (Self::Score, Self::K)>;
 }
 
+/// Computes a score by comparing keys
 pub trait ComputeDiff: Sync + Send + 'static {
     type K: Sync + Send + Ord;
     type Score: Sync + Send + Ord;
