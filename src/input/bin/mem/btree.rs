@@ -213,6 +213,7 @@ where
     }
 }
 
+/// Creates a [`MemSource`] from [`Nearest`] and [`MemSource`]
 pub fn mem_src_bin_new<M, N>(
     msrc: M,
     near: N,
