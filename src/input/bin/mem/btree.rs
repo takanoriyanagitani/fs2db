@@ -1,3 +1,5 @@
+//! A module to make a grouped row from loosely related rows(workaround for bad data structure)
+
 use core::ops::{RangeBounds, RangeInclusive};
 
 use std::collections::{BTreeMap, BTreeSet};
