@@ -1,9 +1,12 @@
+#[deny(clippy::unwrap_used)]
+
 pub mod rpc {
     pub mod fs2db {
         pub mod proto {
 
             #[cfg(feature = "source")]
             pub mod source {
+                #[allow(clippy::unwrap_used)]
                 pub mod v1 {
                     tonic::include_proto!("fs2db.proto.source.v1");
                 }
@@ -11,6 +14,7 @@ pub mod rpc {
 
             #[cfg(feature = "target")]
             pub mod target {
+                #[allow(clippy::unwrap_used)]
                 pub mod v1 {
                     tonic::include_proto!("fs2db.proto.target.v1");
                 }
