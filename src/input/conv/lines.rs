@@ -60,6 +60,7 @@ where
     }
 }
 
+/// Creates a [`BucketSource`] from [`ReadSource`]
 pub fn bytes_src_new<R>(rsrc: R) -> impl BucketSource<Bucket = R::Bucket, K = usize, V = Vec<u8>>
 where
     R: ReadSource,
