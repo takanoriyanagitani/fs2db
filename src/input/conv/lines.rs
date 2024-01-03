@@ -68,13 +68,16 @@ where
     ReadSrc { rsrc }
 }
 
+/// File Getter
 #[tonic::async_trait]
 pub trait FsSource: Send + Sync + 'static {
     type Bucket: Send + Sync;
     type P: AsRef<Path> + Send + Sync;
 
+    /// Resolve a filename(Path) from a Bucket
     fn bucket2path(&self, b: Self::Bucket) -> Result<Self::P, Status>;
 
+    /// Gets a [`tokio::fs::File`] by Bucket
     async fn get_file_by_bucket(&self, b: Self::Bucket) -> Result<tokio::fs::File, Status> {
         let p: Self::P = self.bucket2path(b)?;
         tokio::fs::File::open(p)
