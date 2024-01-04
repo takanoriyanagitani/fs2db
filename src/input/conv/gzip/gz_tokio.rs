@@ -26,6 +26,7 @@ where
     }
 }
 
+/// Creates a [`ReadSource`] from gzipped [`ReadSource`]
 pub fn read_src_gzip_decoded_new<R>(encoded: R) -> impl ReadSource<Bucket = R::Bucket>
 where
     R: ReadSource,
