@@ -6,6 +6,7 @@ use tonic::Status;
 
 use crate::input::source::BucketSource;
 
+/// Converts an input to an output.
 pub trait Converter: Send + Sync + 'static {
     type Input: Send + Sync;
     type Output: Send + Sync;
@@ -54,6 +55,7 @@ where
     }
 }
 
+/// Creates a [`BucketSource`] from a [`Converter`] and a [`BucketSource`]
 pub fn conv_source_new<B, C>(
     original: B,
     converter: C,
