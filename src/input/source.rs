@@ -81,6 +81,7 @@ where
     }
 }
 
+/// Creates a [`BucketSource`] from the original [`BucketSource`] and a [`Mapper`]
 pub fn mapd_bkt_src_new<M, B>(
     mapper: M,
     original: B,
