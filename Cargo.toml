@@ -7,6 +7,9 @@ license = "Apache-2.0"
 documentation = "https://docs.rs/crate/fs2db"
 repository = "https://github.com/takanoriyanagitani/fs2db"
 
+[lints.rust]
+unsafe_code = "forbid"
+
 [dependencies.futures]
 version = "0.3"
 optional = true
